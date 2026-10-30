@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { apiUrl } from "./api.js";
 import { dashboardMockData } from "./data/dashboardMockData";
 import Dashboard from "./Pages/Dashboard.jsx";
 import Login from "./Pages/Login.jsx";
@@ -57,7 +58,7 @@ function App() {
         if (currentView === "dashboard") {
             localStorage.setItem("admin_current_view", "dashboard");
             const token = localStorage.getItem("admin_token");
-            fetch("http://localhost:8080/api/dashboard/stats", {
+            fetch(apiUrl("/api/dashboard/stats"), {
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",
                     "Content-Type": "application/json"

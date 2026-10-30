@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiUrl } from "../api.js";
 import { useSystemConfiguration } from "../hooks/useSystemConfiguration.js";
 import "./SystemConfiguration.css";
 
@@ -256,7 +257,7 @@ function SystemConfiguration() {
 
     useEffect(() => {
         const token = localStorage.getItem("admin_token");
-        fetch("http://localhost:8080/api/system/config", {
+        fetch(apiUrl("/api/system/config"), {
             headers: {
                 "Authorization": token ? `Bearer ${token}` : "",
                 "Content-Type": "application/json"
@@ -318,7 +319,7 @@ function SystemConfiguration() {
         const change = configuration.pendingChange;
         const token = localStorage.getItem("admin_token");
         try {
-            const res = await fetch("http://localhost:8080/api/system/config/update", {
+            const res = await fetch(apiUrl("/api/system/config/update"), {
                 method: "POST",
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",

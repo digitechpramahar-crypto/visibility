@@ -9,7 +9,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/moderation")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class ModerationController {
 
     @Autowired

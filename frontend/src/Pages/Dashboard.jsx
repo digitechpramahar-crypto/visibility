@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { apiUrl } from "../api.js";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { initialKycSubmissions } from "../data/kyc/kycData.js";
@@ -626,7 +627,7 @@ function AllUsersModal({ users, onClose, onRoleUpdate }) {
   const handleRoleChange = async (userId, newRole) => {
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`http://localhost:8080/api/users/${userId}/role`, {
+      const res = await fetch(apiUrl(`/api/users/${userId}/role`), {
         method: "PUT",
         headers: {
           "Authorization": token ? `Bearer ${token}` : "",
@@ -724,7 +725,7 @@ function AdminProfileModal({ adminUser, onClose }) {
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
-    fetch(`http://localhost:8080/api/admin/profile?email=${email}`, {
+    fetch(apiUrl(`/api/admin/profile?email=${email}`), {
       headers: { "Authorization": token ? `Bearer ${token}` : "" }
     })
         .then(res => res.json())
@@ -743,7 +744,7 @@ function AdminProfileModal({ adminUser, onClose }) {
 
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await fetch("http://localhost:8080/api/admin/profile", {
+      const res = await fetch(apiUrl("/api/admin/profile"), {
         method: "PUT",
         headers: {
           "Authorization": token ? `Bearer ${token}` : "",
@@ -897,7 +898,7 @@ function Dashboard({ data: initialMockData, adminUser, onLogout }) {
   // 1. Fetch live metrics from /api/dashboard/stats
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
-    fetch("http://localhost:8080/api/dashboard/stats", {
+    fetch(apiUrl("/api/dashboard/stats"), {
       headers: {
         "Authorization": token ? `Bearer ${token}` : "",
         "Content-Type": "application/json"
@@ -924,7 +925,7 @@ function Dashboard({ data: initialMockData, adminUser, onLogout }) {
   // 2. Fetch live user activity chart data based on selected period
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
-    fetch(`http://localhost:8080/api/dashboard/user-activity-chart?period=${selectedChartPeriod}`, {
+    fetch(apiUrl(`/api/dashboard/user-activity-chart?period=${selectedChartPeriod}`), {
       headers: {
         "Authorization": token ? `Bearer ${token}` : "",
         "Content-Type": "application/json"
@@ -942,7 +943,7 @@ function Dashboard({ data: initialMockData, adminUser, onLogout }) {
   // 3. Fetch registered users from backend for User Accounts & Preferred Cities
   const fetchUsers = () => {
     const token = localStorage.getItem("admin_token");
-    fetch("http://localhost:8080/api/users", {
+    fetch(apiUrl("/api/users"), {
       headers: {
         "Authorization": token ? `Bearer ${token}` : "",
         "Content-Type": "application/json"

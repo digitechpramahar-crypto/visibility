@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from "react";
+import { apiUrl } from "../api.js";
 import { moderationReferenceTime } from "../data/moderationMockData";
 
 export const defaultModerationFilters = {
@@ -42,7 +43,7 @@ export function useModeration() {
             endDate: filters.endDate || "",
         });
 
-        fetch(`http://localhost:8080/api/moderation/reports?${queryParams.toString()}`, {
+        fetch(apiUrl(`/api/moderation/reports?${queryParams.toString()}`), {
             headers: {
                 "Authorization": token ? `Bearer ${token}` : "",
                 "Content-Type": "application/json",
@@ -172,7 +173,7 @@ export function useModeration() {
     const updateModeratorNotes = async (reportId, moderatorNotes) => {
         try {
             const token = localStorage.getItem("admin_token");
-            const res = await fetch(`http://localhost:8080/api/moderation/reports/${reportId}/notes`, {
+            const res = await fetch(apiUrl(`/api/moderation/reports/${reportId}/notes`), {
                 method: "POST",
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",
@@ -208,7 +209,7 @@ export function useModeration() {
     const approveContent = async (reportId) => {
         try {
             const token = localStorage.getItem("admin_token");
-            const res = await fetch(`http://localhost:8080/api/moderation/reports/${reportId}/approve`, {
+            const res = await fetch(apiUrl(`/api/moderation/reports/${reportId}/approve`), {
                 method: "POST",
                 headers: { "Authorization": token ? `Bearer ${token}` : "", "Content-Type": "application/json" },
             });
@@ -230,7 +231,7 @@ export function useModeration() {
     const removeContent = async (reportId) => {
         try {
             const token = localStorage.getItem("admin_token");
-            const res = await fetch(`http://localhost:8080/api/moderation/reports/${reportId}/remove-content`, {
+            const res = await fetch(apiUrl(`/api/moderation/reports/${reportId}/remove-content`), {
                 method: "POST",
                 headers: { "Authorization": token ? `Bearer ${token}` : "", "Content-Type": "application/json" },
             });
@@ -252,7 +253,7 @@ export function useModeration() {
     const updateReportStatus = async (reportId, newStatus) => {
         try {
             const token = localStorage.getItem("admin_token");
-            const res = await fetch(`http://localhost:8080/api/moderation/reports/${reportId}/status`, {
+            const res = await fetch(apiUrl(`/api/moderation/reports/${reportId}/status`), {
                 method: "POST",
                 headers: { "Authorization": token ? `Bearer ${token}` : "", "Content-Type": "application/json" },
                 body: JSON.stringify({ status: newStatus }),
@@ -276,7 +277,7 @@ export function useModeration() {
 
         try {
             const token = localStorage.getItem("admin_token");
-            const res = await fetch(`http://localhost:8080/api/moderation/reports/${reportId}/block-user`, {
+            const res = await fetch(apiUrl(`/api/moderation/reports/${reportId}/block-user`), {
                 method: "POST",
                 headers: { "Authorization": token ? `Bearer ${token}` : "", "Content-Type": "application/json" },
                 body: JSON.stringify({ reason: blockReason }),

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiUrl } from "../api.js";
 import {
   systemConfigurationAuditHistory,
   systemConfigurationSettings,
@@ -16,13 +17,13 @@ export function useSystemConfiguration() {
   // Fetch live system configuration settings and audit history from Spring Boot backend on mount
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:8080/api/system/config", {
+      fetch(apiUrl("/api/system/config"), {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("admin_token") || ""}`,
           "Content-Type": "application/json"
         }
       }).then((res) => res.json()),
-      fetch("http://localhost:8080/api/system/history", {
+      fetch(apiUrl("/api/system/history"), {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("admin_token") || ""}`,
           "Content-Type": "application/json"
@@ -57,7 +58,7 @@ export function useSystemConfiguration() {
     const configValue = pendingChange.newValue;
 
     // Send update to Spring Boot backend API
-    fetch("http://localhost:8080/api/system/config/update", {
+    fetch(apiUrl("/api/system/config/update"), {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("admin_token") || ""}`,

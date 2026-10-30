@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { apiUrl } from "../api.js";
 import {
     documentTypeOptions,
     statusOptions,
@@ -410,7 +411,7 @@ function KycApprovals() {
             documentType: documentType || "all",
         });
 
-        fetch(`http://localhost:8080/api/kyc/queue?${queryParams.toString()}`, {
+        fetch(apiUrl(`/api/kyc/queue?${queryParams.toString()}`), {
             headers: {
                 "Authorization": token ? `Bearer ${token}` : "",
                 "Content-Type": "application/json",
@@ -467,7 +468,7 @@ function KycApprovals() {
     const updateKycStatus = async (id, newStatus, reason = "") => {
         try {
             const token = localStorage.getItem("admin_token");
-            const res = await fetch(`http://localhost:8080/api/kyc/review/${id}`, {
+            const res = await fetch(apiUrl(`/api/kyc/review/${id}`), {
                 method: "POST",
                 headers: {
                     "Authorization": token ? `Bearer ${token}` : "",
